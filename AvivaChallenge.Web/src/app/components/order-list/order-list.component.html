@@ -1,0 +1,61 @@
+﻿<div class="order-list-container">
+  <div class="header">
+    <h1>Órdenes</h1>
+    <button class="btn btn-secondary" (click)="goToProducts()">Crear Nueva Orden</button>
+  </div>
+
+  @if (actionMessage) {
+    <div class="alert alert-success">{{ actionMessage }}</div>
+  }
+  @if (errorMessage) {
+    <div class="alert alert-error">{{ errorMessage }}</div>
+  }
+
+  @if (isLoading) {
+    <div class="loading">Cargando órdenes...</div>
+  } @else if (orders.length === 0) {
+    <div class="empty-state">
+      <p>No hay órdenes registradas.</p>
+      <button class="btn btn-primary" (click)="goToProducts()">Crear Primera Orden</button>
+    </div>
+  } @else {
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Monto</th>
+            <th>Método de Pago</th>
+            <th>Proveedor</th>
+            <th>Estado</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (order of orders; track order.orderId) {
+            <tr>
+              <td>#{{ order.orderId }}</td>
+              <td>{{ order.amount | currency: 'MXN' }}</td>
+              <td>{{ getPaymentModeLabel(order.paymentMode) }}</td>
+              <td>{{ order.providerName }}</td>
+              <td>
+                <span class="status-badge" [ngClass]="getStatusClass(order.status)">
+                  {{ getStatusLabel(order.status) }}
+                </span>
+              </td>
+              <td>{{ order.createdDate | date: 'dd/MM/yyyy HH:mm' }}</td>
+              <td class="actions">
+                <button class="btn btn-sm btn-info" (click)="viewDetail(order.orderId)">Detalle</button>
+                @if (order.status === 'Pending') {
+                  <button class="btn btn-sm btn-success" (click)="payOrder(order)">Pagar</button>
+                  <button class="btn btn-sm btn-danger" (click)="cancelOrder(order)">Cancelar</button>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

@@ -1,0 +1,83 @@
+﻿<div class="order-detail-container">
+  <button class="btn btn-secondary back-btn" (click)="goBack()">← Volver a Órdenes</button>
+
+  @if (isLoading) {
+    <div class="loading">Cargando orden...</div>
+  } @else if (errorMessage) {
+    <div class="alert alert-error">{{ errorMessage }}</div>
+  } @else if (order) {
+    <div class="detail-card">
+      <div class="detail-header">
+        <h1>Orden #{{ order.orderId }}</h1>
+        <span class="status-badge" [ngClass]="getStatusClass(order.status)">
+          {{ getStatusLabel(order.status) }}
+        </span>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-item">
+          <label>Monto Total</label>
+          <span class="value highlight">{{ order.amount | currency: 'MXN' }}</span>
+        </div>
+        <div class="info-item">
+          <label>Método de Pago</label>
+          <span class="value">{{ getPaymentModeLabel(order.paymentMode) }}</span>
+        </div>
+        <div class="info-item">
+          <label>Proveedor</label>
+          <span class="value">{{ order.providerName }}</span>
+        </div>
+        <div class="info-item">
+          <label>ID Proveedor</label>
+          <span class="value">{{ order.providerOrderId }}</span>
+        </div>
+        <div class="info-item">
+          <label>Fecha de Creación</label>
+          <span class="value">{{ order.createdDate | date: 'dd/MM/yyyy HH:mm:ss' }}</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Productos</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Precio Unitario</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (product of order.products; track product.name) {
+              <tr>
+                <td>{{ product.name }}</td>
+                <td>{{ product.unitPrice | currency: 'MXN' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      @if (order.fees && order.fees.length > 0) {
+        <div class="section">
+          <h2>Comisiones</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Concepto</th>
+                <th>Monto</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (fee of order.fees; track fee.name) {
+                <tr>
+                  <td>{{ fee.name }}</td>
+                  <td>{{ fee.amount | currency: 'MXN' }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
+  }
+</div>

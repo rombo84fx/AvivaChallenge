@@ -31,6 +31,11 @@ ehthumbs.db
 Desktop.ini
 .DS_Store
 
+## Node / Angular
+node_modules/
+dist/
+.angular/
+
 ## Misc
 *.swp
 *.bak

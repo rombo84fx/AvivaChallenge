@@ -1,6 +1,6 @@
-﻿# AvivaChallenge — Payment Web API
+﻿# AvivaChallenge — Payment Order System
 
-A .NET 10 Web API that creates and manages payment orders, automatically selecting the optimal payment provider based on the lowest commission fee.
+A full-stack payment order system with an **Angular 21** frontend and a **.NET 10** Web API backend. The system creates and manages payment orders, automatically selecting the optimal payment provider based on the lowest commission fee.
 
 ## Overview
 
@@ -38,6 +38,12 @@ Cash always routes to **PagaFacil**; Transfer always routes to **CazaPagos**.
 
 ## Tech Stack
 
+### Frontend
+- **Angular 21** (LTS) — Standalone components, new control flow syntax
+- **TypeScript** — Strongly typed models and services
+- **SCSS** — Component-scoped and global styles
+
+### Backend
 - **.NET 10** / ASP.NET Core Web API
 - **Strategy Pattern** for payment provider abstraction
 - **In-memory repository** for order storage
@@ -59,6 +65,19 @@ AvivaChallenge.Tests/
 ├── FeeCalculationTests.cs
 ├── PaymentProviderSelectorTests.cs
 └── OrderServiceTests.cs
+
+AvivaChallenge.Web/           # Angular 21 Frontend
+├── src/app/
+│   ├── components/
+│   │   ├── product-list/     # Product catalog & order creation
+│   │   ├── order-list/       # Orders grid with pay/cancel actions
+│   │   └── order-detail/     # Full order information view
+│   ├── models/               # TypeScript interfaces
+│   ├── services/             # HttpClient API service
+│   ├── app.routes.ts         # Route definitions
+│   └── app.config.ts         # App providers (HttpClient, Router)
+├── proxy.conf.json           # Dev proxy to API
+└── angular.json
 ```
 
 ## Getting Started
@@ -66,21 +85,45 @@ AvivaChallenge.Tests/
 ### Prerequisites
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download)
+- [Node.js 22+](https://nodejs.org/) (LTS)
 
-### Run the API
+### Run the API (Backend)
 
 ```bash
 cd AvivaChallenge.Api
 dotnet run
 ```
 
-The API will start at `https://localhost:5001` (or the port configured in `launchSettings.json`).
+The API will start at `http://localhost:5000` (or the port configured in `launchSettings.json`).
+
+### Run the Frontend
+
+```bash
+cd AvivaChallenge.Web
+npm install
+npm start
+```
+
+The Angular app will start at `http://localhost:4200` and proxy API requests to the backend.
 
 ### Run Tests
 
 ```bash
+# Backend tests
 dotnet test
+
+# Frontend tests
+cd AvivaChallenge.Web
+npx ng test
 ```
+
+## Frontend Screens
+
+| Screen          | Route           | Description                                                  |
+|-----------------|-----------------|--------------------------------------------------------------|
+| Products        | `/`             | Browse products, select items, choose payment mode, create order |
+| Orders          | `/orders`       | View all orders in a grid, pay or cancel pending orders      |
+| Order Detail    | `/orders/:id`   | View complete order info including products and fees         |
 
 ## API Endpoints
 

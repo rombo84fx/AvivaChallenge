@@ -1,0 +1,12 @@
+﻿<nav class="navbar">
+  <div class="navbar-content">
+    <a class="brand" routerLink="/">Aviva Pagos</a>
+    <div class="nav-links">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Productos</a>
+      <a routerLink="/orders" routerLinkActive="active">Órdenes</a>
+    </div>
+  </div>
+</nav>
+<main>
+  <router-outlet />
+</main>

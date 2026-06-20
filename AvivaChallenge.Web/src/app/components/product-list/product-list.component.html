@@ -1,0 +1,56 @@
+﻿<div class="product-list-container">
+  <div class="header">
+    <h1>Productos</h1>
+    <button class="btn btn-secondary" (click)="goToOrders()">Ver Órdenes</button>
+  </div>
+
+  @if (successMessage) {
+    <div class="alert alert-success">{{ successMessage }}</div>
+  }
+  @if (errorMessage) {
+    <div class="alert alert-error">{{ errorMessage }}</div>
+  }
+
+  <div class="product-grid">
+    @for (product of products; track product.name) {
+      <div class="product-card" [class.selected]="product.selected" (click)="toggleProduct(product)">
+        <div class="product-icon">🛒</div>
+        <h3>{{ product.name }}</h3>
+        <p class="price">{{ product.unitPrice | currency: 'MXN' }}</p>
+        <div class="checkbox-indicator">
+          @if (product.selected) {
+            <span class="checked">✓</span>
+          } @else {
+            <span class="unchecked">○</span>
+          }
+        </div>
+      </div>
+    }
+  </div>
+
+  @if (selectedProducts.length > 0) {
+    <div class="order-panel">
+      <div class="order-summary">
+        <span>{{ selectedProducts.length }} producto(s) seleccionado(s)</span>
+        <span class="total">Total: {{ totalAmount | currency: 'MXN' }}</span>
+      </div>
+
+      <div class="order-options">
+        <label for="paymentMode">Método de pago:</label>
+        <select id="paymentMode" [(ngModel)]="paymentMode">
+          <option value="Cash">Efectivo</option>
+          <option value="CreditCard">Tarjeta de Crédito</option>
+          <option value="Transfer">Transferencia</option>
+        </select>
+
+        <button class="btn btn-primary" [disabled]="!canCreateOrder" (click)="createOrder()">
+          @if (isCreating) {
+            Creando...
+          } @else {
+            Crear Orden
+          }
+        </button>
+      </div>
+    </div>
+  }
+</div>

@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { OrderResponse } from '../../models/order.model';
@@ -20,6 +20,7 @@ export class OrderListComponent implements OnInit {
   constructor(
     private orderService: OrderService,
     private router: Router,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -32,10 +33,12 @@ export class OrderListComponent implements OnInit {
       next: (orders) => {
         this.orders = orders;
         this.isLoading = false;
+        this.cdr.markForCheck();
       },
       error: () => {
         this.errorMessage = 'Error al cargar las ordenes';
         this.isLoading = false;
+        this.cdr.markForCheck();
       },
     });
   }
@@ -50,6 +53,7 @@ export class OrderListComponent implements OnInit {
       },
       error: () => {
         this.errorMessage = `Error al cancelar la orden #${order.orderId}`;
+        this.cdr.markForCheck();
       },
     });
   }
@@ -64,6 +68,7 @@ export class OrderListComponent implements OnInit {
       },
       error: () => {
         this.errorMessage = `Error al pagar la orden #${order.orderId}`;
+        this.cdr.markForCheck();
       },
     });
   }

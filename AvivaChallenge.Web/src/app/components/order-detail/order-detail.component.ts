@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderResponse } from '../../models/order.model';
@@ -20,6 +20,7 @@ export class OrderDetailComponent implements OnInit {
     private orderService: OrderService,
     private route: ActivatedRoute,
     private router: Router,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -29,10 +30,12 @@ export class OrderDetailComponent implements OnInit {
         next: (order) => {
           this.order = order;
           this.isLoading = false;
+          this.cdr.markForCheck();
         },
         error: () => {
           this.errorMessage = 'Orden no encontrada';
           this.isLoading = false;
+          this.cdr.markForCheck();
         },
       });
     }

@@ -1,4 +1,4 @@
-﻿import { Component } from '@angular/core';
+﻿import { ChangeDetectorRef, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -32,6 +32,7 @@ export class ProductListComponent {
   constructor(
     private orderService: OrderService,
     private router: Router,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   get selectedProducts(): SelectableProduct[] {
@@ -72,10 +73,12 @@ export class ProductListComponent {
         this.isCreating = false;
         this.successMessage = `Orden #${order.orderId} creada — Proveedor: ${order.providerName} — Total: $${order.amount.toFixed(2)}`;
         this.products.forEach((p) => (p.selected = false));
+        this.cdr.markForCheck();
       },
       error: (err) => {
         this.isCreating = false;
         this.errorMessage = err.error?.error || 'Error al crear la orden';
+        this.cdr.markForCheck();
       },
     });
   }

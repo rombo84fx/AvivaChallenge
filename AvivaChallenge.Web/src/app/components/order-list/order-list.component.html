@@ -1,6 +1,6 @@
 ﻿<div class="order-list-container">
   <div class="header">
-    <h1>Órdenes</h1>
+    <h1>Ordenes</h1>
     <button class="btn btn-secondary" (click)="goToProducts()">Crear Nueva Orden</button>
   </div>
 
@@ -12,10 +12,10 @@
   }
 
   @if (isLoading) {
-    <div class="loading">Cargando órdenes...</div>
+    <div class="loading">Cargando ordenes...</div>
   } @else if (orders.length === 0) {
     <div class="empty-state">
-      <p>No hay órdenes registradas.</p>
+      <p>No hay ordenes registradas.</p>
       <button class="btn btn-primary" (click)="goToProducts()">Crear Primera Orden</button>
     </div>
   } @else {

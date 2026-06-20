@@ -34,7 +34,7 @@ export class OrderListComponent implements OnInit {
         this.isLoading = false;
       },
       error: () => {
-        this.errorMessage = 'Error al cargar las órdenes';
+        this.errorMessage = 'Error al cargar las ordenes';
         this.isLoading = false;
       },
     });
